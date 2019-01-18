@@ -1,0 +1,8 @@
+﻿  Heap.c
+f:\比特 数据结构oj\堆\堆\heap.c(101): warning C4028: 形参 1 与声明不同
+f:\比特 数据结构oj\堆\堆\heap.c(101): warning C4029: 声明的形参表不同于定义
+  test.c
+f:\比特 数据结构oj\堆\堆\test.c(17): warning C4133: “函数”: 从“int *”到“Heap *”的类型不兼容
+f:\比特 数据结构oj\堆\堆\test.c(17): warning C4020: “HeapSort”: 实参太多
+  正在生成代码...
+  堆.vcxproj -> F:\比特 数据结构OJ\堆\Debug\堆.exe
