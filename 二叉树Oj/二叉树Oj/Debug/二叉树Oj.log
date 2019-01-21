@@ -1,0 +1,134 @@
+﻿  二叉树Oj.c
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(2): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(2): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(2): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(3): error C2054: 在“root”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(10): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(10): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(10): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(11): error C2054: 在“root”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(20): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(20): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(20): error C2059: 语法错误:“类型”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(20): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(30): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(30): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(30): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(31): error C2054: 在“root”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(40): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(40): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(40): error C2146: 语法错误: 缺少“;”(在标识符“x”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(40): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(41): error C2054: 在“x”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(58): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(60): error C2107: 非法索引，不允许间接寻址
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(63): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(63): warning C4047: “return”:“int *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(67): error C2065: “BTNode”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(67): error C2297: “*”: 非法，右操作数包含“int *”类型
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(67): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(68): error C2223: “->left”的左侧必须指向结构/联合
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(68): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(69): error C2223: “->right”的左侧必须指向结构/联合
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(69): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(70): error C2223: “->val”的左侧必须指向结构/联合
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(72): error C2223: “->left”的左侧必须指向结构/联合
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(73): error C2223: “->right”的左侧必须指向结构/联合
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(102): warning C4013: “assert”未定义；假设外部返回 int
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(103): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(103): warning C4047: “=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(111): warning C4013: “free”未定义；假设外部返回 int
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(112): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(112): warning C4047: “=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(122): error C2065: “size_t”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(122): error C2146: 语法错误: 缺少“;”(在标识符“newcapacity”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(122): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(123): warning C4013: “realloc”未定义；假设外部返回 int
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(123): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(124): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(124): warning C4047: “!=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(125): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(162): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(162): warning C4047: “!=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(164): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(164): warning C4047: “!=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(170): error C2037: “left”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(176): error C2037: “right”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(180): warning C4013: “malloc”未定义；假设外部返回 int
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(185): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(185): warning C4047: “!=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(187): error C2037: “val”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(189): error C2037: “left”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(193): error C2037: “right”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(201): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(201): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(201): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(202): error C2054: 在“root”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(211): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(211): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(211): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(212): error C2054: 在“root”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(236): error C2011: “Stack”:“struct”类型重定义
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(93): note: 参见“Stack”的声明
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(243): error C2084: 函数“void StackInit(Stack *)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(100): note: 参见“StackInit”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(245): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(245): warning C4047: “=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(251): error C2084: 函数“void StackDestory(Stack *)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(108): note: 参见“StackDestory”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(254): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(254): warning C4047: “=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(260): error C2084: 函数“void StackPush(Stack *,STDataType)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(117): note: 参见“StackPush”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(264): error C2065: “size_t”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(264): error C2146: 语法错误: 缺少“;”(在标识符“newcapacity”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(264): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(265): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(266): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(266): warning C4047: “!=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(267): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(275): error C2084: 函数“void StackPop(Stack *)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(132): note: 参见“StackPop”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(282): error C2084: 函数“STDataType StackTop(Stack *)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(139): note: 参见“StackTop”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(288): error C2084: 函数“int StackEmpty(Stack *)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(145): note: 参见“StackEmpty”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(294): error C2084: 函数“int StackSize(Stack *)”已有主体
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(151): note: 参见“StackSize”的前一个定义
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(300): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(304): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(304): warning C4047: “!=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(306): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(306): warning C4047: “!=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(310): error C2037: “left”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(313): error C2037: “right”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(313): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(319): error C2037: “right”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(323): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(323): warning C4047: “=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(325): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(325): warning C4047: “!=”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(330): error C2037: “left”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(333): error C2037: “right”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(333): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(336): error C2037: “val”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(342): error C2037: “right”的左侧部分指定未定义的结构/联合“TreeNode”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(300): warning C4047: “初始化”:“TreeNode *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(349): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(349): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(349): error C2059: 语法错误:“)”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(350): error C2054: 在“root”之后应输入“(”
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(373): error C2011: “Stack”:“struct”类型重定义
+  f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(93): note: 参见“Stack”的声明
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(382): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(382): warning C4047: “=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(391): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(391): warning C4047: “=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(401): error C2065: “size_t”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(401): error C2146: 语法错误: 缺少“;”(在标识符“newcapacity”的前面)
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(401): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(402): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(403): error C2065: “NULL”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(403): warning C4047: “!=”:“STDataType *”与“int”的间接级别不同
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(404): error C2065: “newcapacity”: 未声明的标识符
+f:\比特 数据结构oj\二叉树oj\二叉树oj\二叉树oj.c(404): fatal error C1003: 错误计数超过 100；正在停止编译
