@@ -1,0 +1,177 @@
+//.h文件 结点的定义，以及接口的声明
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<malloc.h>
+#include<string.h>
+
+typedef int SLTDataType;
+typedef struct SListNode
+{
+	SLTDataType _data;
+	struct SListNode* _next;
+}SListNode;
+typedef struct SList
+{
+	SListNode* _head;
+}SList;
+void SListInit(SList* plist);    //创建一个链表
+void SListDestory(SList* plist); //消除，清空
+SListNode* BuySListNode(SLTDataType x) ;  //动态开辟，判断开多大
+void SListPushBack(SList* plist, SLTDataType x);   //尾插
+void SListPushFront(SList* plist, SLTDataType x);  //头插
+void SListPopBack(SList* plist);     //尾删
+void SListPopFront(SList* plist);   //头删
+SListNode* SListFind(SList* plist, SLTDataType x);    //查找
+// 在pos的后面进行插入
+void SListInsertAfter(SListNode* pos, SLTDataType x);
+// 在pos的前面进行插入
+void SListEraseAfter(SListNode* pos);
+void SListRemove(SList* plist, SLTDataType x);   //移动
+void SListPrint(SList* plist);
+void TestSList();
+
+接口的具体实现：
+
+void SListDestory(SList* plist)
+{
+	assert(plist);
+	SListNode* cur = plist->_head;
+	while (cur)
+	{
+		SListNode* next = cur->_next;
+		free(cur);
+		cur = next;
+	}
+}
+SListNode* BuySListNode(SLTDataType x)
+{
+	SListNode * node = (SListNode*)malloc(sizeof(SListNode));
+	assert(node);
+	node->_data = x;
+	node->_next = NULL;
+	return node;
+}
+//先构建一个链表
+void SListInit(SList* plist)
+{
+	assert(plist);
+	plist->_head = NULL;
+
+}
+//尾插
+void SListPushBack(SList* plist, SLTDataType x)
+{
+	SListNode* tail = plist->_head;
+	SListNode*newtail;
+	assert(plist);
+	if (plist->_head == NULL)
+	{
+		plist->_head = BuySListNode(x);
+	}
+	else
+	{
+		while (tail->_next != NULL)
+		{
+			tail = tail->_next;
+		}
+
+		newtail = BuySListNode(x);
+		tail->_next = newtail;
+	}
+}
+//头插
+void SListPushFront(SList* plist, SLTDataType x)
+{
+	SListNode * newhead = BuySListNode(x);
+	assert(plist);
+	newhead->_next = plist->_head;
+	plist->_head = newhead;
+
+}
+//尾删
+void SListPopBack(SList* plist)
+{
+	SListNode*tail = plist->_head;
+	SListNode*prev = NULL;
+	assert(plist);
+	if (plist->_head->_next == NULL)
+	{
+		free(plist->_head);
+		plist->_head = NULL;
+	}
+	else
+	{
+		while (tail->_next != NULL)
+		{
+			prev = tail;
+			tail = tail->_next;
+		}
+		free(tail);
+		prev->_next = NULL;
+	}
+}
+//头删
+void SListPopFront(SList* plist)
+{
+	SListNode*newhead = plist->_head;
+	assert(plist);
+	if (plist->_head == NULL)
+	{
+		free(plist->_head);
+		plist->_head = NULL;
+	}
+	else
+	{
+		plist->_head = newhead->_next;
+		free(newhead);
+		newhead = NULL;
+	}
+
+}
+//首先先找到该节点
+SListNode* SListFind(SList* plist, SLTDataType x)
+{
+	SListNode*cur = plist->_head;
+	assert(plist);
+	while (cur != NULL)
+	{
+		if (cur->_data == x)
+		{
+			return cur;
+		}
+		cur = cur->_next;
+	}
+	return cur;
+}
+// 在pos的后面进行插入
+void SListInsertAfter(SListNode* pos, SLTDataType x)
+{
+	SListNode * newnode = BuySListNode(x);
+	assert(pos);
+	newnode->_next = pos->_next;
+	pos->_next = newnode;
+}
+// 在pos的前面进行插入
+void SListEraseAfter(SListNode* pos)
+{
+	assert(pos && pos->_next);
+	SListNode* next = pos->_next;
+	SListNode* nextnext = next->_next;
+	pos->_next = nextnext;
+	free(next);
+	next = NULL;
+
+}
+void SListPrint(SList* plist)
+{
+	SListNode* cur;
+	assert(plist);
+	cur = plist->_head;
+	while (cur)
+	{
+		printf("%d->", cur->_data);
+		cur = cur->_next;
+	}
+	printf("NULL\n");
+}
