@@ -256,7 +256,7 @@ void QuickSort(int* a, int begin, int end)
 	{
 		i = Getmid(a, begin, end);
 		swap(&a[begin], &a[i]);
-		mid = partSort3(a, begin, end);
+		mid = partSort1(a, begin, end);
 		QuickSort(a, begin, mid - 1);
 		QuickSort(a,mid + 1,end);
 	}
