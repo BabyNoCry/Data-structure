@@ -1,2 +1,4 @@
 ﻿  排序.c
-  排序（计数，归并）.vcxproj -> F:\比特 数据结构OJ\排序（计数，归并）\Debug\排序（计数，归并）.exe
+f:\data-structure\排序（计数，归并）\排序（计数，归并）\排序.c(75): warning C4013: “Merage”未定义；假设外部返回 int
+排序.obj : error LNK2019: 无法解析的外部符号 _Merage，该符号在函数 _main 中被引用
+F:\Data-structure\排序（计数，归并）\Debug\排序（计数，归并）.exe : fatal error LNK1120: 1 个无法解析的外部命令

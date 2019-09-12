@@ -1,0 +1,255 @@
+#include<stdio.h>
+void InsertSort(int* a,int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		int tmp=a[i];
+		int end=i-1;
+		while(end>=0)
+		{
+			if(tmp<a[end])
+			{
+				a[end+1]=a[end];
+				a[end]=tmp;
+				end--;
+			}
+			else
+			{	
+				break;
+			}
+				
+		}
+
+	}
+		
+}
+
+
+void ShellSort(int* a,int n)
+{
+	int i=0;
+	int gap=n;
+
+	while(gap>1)
+	{
+		gap=gap/3+1;	//距离逐渐变小，+1位了保证最终最小距离是1。
+		for(i=0;i<n;i++)
+		{
+			int tmp=a[i];
+			int end=i-gap;
+			while(end>=0)
+			{
+			if(tmp<a[end])
+			{
+				a[end+gap]=a[end];
+				a[end]=tmp;
+				end-=gap;
+			}
+			else
+			{	
+				break;
+			}
+				
+			}		
+		}
+	}
+}
+void selectSort(int* a,int n)
+{
+	for(int i=0;i<n-1;i++)
+	{
+		int min=i;
+		for(int j=i;j<n;j++)
+		{
+			if(a[min]>a[j])
+			{
+				min=j;
+			}
+		}
+		int tmp=a[i];
+		a[i]=a[min];
+		a[min]=tmp;
+	}
+} 
+void swap(int* a,int* b)
+{
+	int tmp=*a;
+	*a=*b;
+	*b=tmp;
+ }
+//向下调整算法 
+void AdjustDown(int* a,int n,int parent)
+{
+	for(int i=parent;i*2+1<n;i=parent)
+	{
+		int child = parent*2+1;
+		if(a[child]<a[child+1]&&child!=n-1)
+		 child++;
+		if(a[parent]<a[child])
+		{
+			swap(&a[parent],&a[child]);
+			parent=child;
+		}
+		else
+			break;
+	}
+	
+	
+}
+//堆排序 
+void HeapSort(int* a,int n)
+{
+	//利用向下调整算法构建大堆 
+	for(int i=(n-2)/2;i>=0;i--)
+	{
+		AdjustDown(a,n,i);
+	}
+	for(int i=n-1;i>=0;i--)
+	{
+		swap(&a[0],&a[i]);
+		AdjustDown(a,i,0);
+	} 
+}
+
+//冒泡排序
+void BubbleSort(int* a,int n)
+{
+	for(int i=0;i<n-1;i++)
+	{
+		for(int j=0;j<n-1-i;j++)	//注意边界为 n-1-i 
+		{
+			if(a[j]>a[j+1])
+			{
+				swap(&a[j],&a[j+1]);
+			}
+		}
+	}
+ } 
+ 
+ 
+ //快速排序
+//三数取中
+int Getmid(int* a, int begin, int end)
+{
+	int mid = (begin + end) >> 1;
+	if (a[begin] > a[mid])
+	{
+		if (a[begin] > a[end])
+		{
+			if (a[mid] > a[end])
+			{
+				return mid;
+			}
+			else
+				return end;
+		}
+		else
+			return begin;
+
+	}
+	else if (a[mid] > a[begin])
+	{
+		if (a[mid] > a[end])
+		{
+			if (a[begin] > a[end])
+				return begin;
+			else
+				return end;
+		}
+		else
+			return mid;
+
+
+	}
+	else
+		return mid;
+	
+}
+//快速排序(递归)hoare 
+int partSort1(int* a, int begin, int end)
+{
+	
+		int tmp = begin;
+		int key = a[begin];
+		while (begin < end)
+		{
+			while (begin < end&&a[end] >= key)
+				end--;
+			while (begin < end&&a[begin] <= key)
+				begin++;
+			swap(&a[begin], &a[end]);
+		}
+		swap(&a[tmp], &a[begin]);
+		return begin;
+	
+}
+//挖坑法  （快排） 
+int partSort2(int* a, int begin, int end)
+{
+	int tmp = a[begin];
+	int key = begin;
+	while (begin < end)
+	{
+		while (begin < end&&a[end] >= tmp)
+			end--;
+		if (begin < end)
+			a[begin] = a[end];
+		while (begin < end&&a[begin] <= tmp)
+			begin++;
+		if (begin < end)
+			a[end] = a[begin];		
+	}
+	a[begin] = tmp;
+	return begin;
+}
+//前后指针 （快排） 
+int partSort3(int* a, int begin, int end)
+{
+	
+
+	int prev = begin - 1;
+	int cur = begin;
+	int key = a[end];
+	while (cur <=end)
+	{
+			if (a[cur] <= key)
+			{
+				prev++;
+				if (prev != cur)
+				{
+					int tmp = a[cur];
+					a[cur] = a[prev];
+					a[prev] = tmp;
+				}
+			}
+			cur++;
+	}
+	return prev;
+}
+void QuickSort(int* a, int begin, int end)
+{
+	int mid;
+	int i = 0;
+	
+	if (begin < end)
+	{
+		i = Getmid(a, begin, end);
+		swap(&a[begin], &a[i]);
+		mid = partSort1(a, begin, end);
+		QuickSort(a, begin, mid - 1);
+		QuickSort(a,mid + 1,end);
+	}
+} 
+
+
+
+int main()
+{
+	int arr[12]={11,100,1,10,3,12,2,6,4,7,8,5};
+	Qsort(arr,0,11);
+	for(int i=0;i<12;i++)
+	{
+		printf("%d ",arr[i]);
+	}
+	return 0;
+ } 
