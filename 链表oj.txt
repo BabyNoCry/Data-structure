@@ -1,0 +1,193 @@
+206 反转链表
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//迭代法
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL)
+            return NULL;
+       ListNode* prev = NULL;
+        ListNode* cur =head;
+        ListNode* lat= head->next;
+        while(lat!=NULL)
+        { 
+            cur->next=prev;
+            prev=cur;
+            cur=lat;
+            lat=lat->next;
+        }
+        cur->next=prev;
+        return cur;
+    }
+};
+//递归法
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) 
+    {
+        if(head == NULL || head->next ==NULL)  //链表中有0个结点或者1个结点
+            return head;
+        ListNode* newhead = reverseList(head->next);  //先反转后面的链表，从最后面的两个结点开始反转，依次向前
+        head->next->next = head;   //将后一个链表结点指向前一个结点
+        head->next = nullptr;       //将原链表中前一个结点指向后一个结点的指向关系断开
+        return newhead;
+    }
+
+};
+
+203 移除链表元素
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+       while(head != NULL && head->val == val)
+            head = head->next;
+        if(head==NULL)
+           return NULL;
+        
+       ListNode* pre = head;
+        while(pre->next != NULL)
+            if(pre->next->val == val)
+                pre->next = pre->next->next;   
+            else
+                pre = pre->next;
+        return head;
+    
+    }
+};
+
+867 链表的中间结点
+方法1：
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        int k = 0;
+        ListNode* A[100] ;                //辅助数组
+        ListNode *p = head;
+        while(p != nullptr)
+        {
+            A[k] = p;
+            p = p->next;
+            k++;
+        }
+        return A[k/2];
+    }
+
+};
+方法二：
+快慢指针法：
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        
+        ListNode* fast=head;
+        ListNode* slow =head;
+        while(fast!=NULL&&fast->next!=NULL)
+        {
+            fast = fast->next->next;
+            slow=slow->next;
+        } 
+        return slow;
+
+    }
+   
+};
+
+链表中倒数第k个结点
+题目描述
+输入一个链表，输出该链表中倒数第k个结点。
+//快慢指针 当快指针走到空时，满指针与其的距离要保持为k，
+//因此需要先让快指针先走k步，然后两个同时。注意的是：链表结点不足k个时，返回空。
+class Solution {
+public:
+    ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
+        ListNode* fast=pListHead;
+        ListNode* slow=pListHead;
+        int i=0;
+        for( i=0;fast!=NULL;i++)
+        {
+            if(i>=k)
+            {
+                slow=slow->next;
+            }
+            fast=fast->next;
+        }
+        return i>=k?slow:NULL;
+    }
+};
+
+21. 合并两个有序链表
+将两个有序链表合并为一个新的有序链表并返回。
+新链表是通过拼接给定的两个链表的所有节点组成的。 
+//迭代法
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1==NULL&&l2==NULL)
+        {
+            return l1==NULL?l2:l1;
+        }
+        ListNode* newList = new ListNode(0);
+        ListNode* ret=newList;
+        ListNode* p1=l1;
+        ListNode* p2=l2;
+        while(p1!=NULL&&p2!=NULL)
+        {
+            if(p1->val<p2->val)
+            {
+                newList->next=p1;
+              
+                p1=p1->next;
+            }
+            else
+            {
+                newList->next=p2;
+                
+                p2=p2->next;
+            }
+            newList=newList->next;
+            
+        }
+        newList->next=p1?p1:p2;
+        return ret->next;
+         
+    }
+};
+//递归法
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+       if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        ListNode* head = NULL;
+        if(l1->val<l2->val)
+        {
+            head=l1;
+            head->next= mergeTwoLists( l1->next, l2);
+
+        }
+        else
+        {
+            head=l2;
+            head->next=mergeTwoLists( l1, l2->next);
+
+        }
+                
+        return head;
+    }
