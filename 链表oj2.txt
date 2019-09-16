@@ -1,0 +1,447 @@
+
+链表分割
+编写代码，以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
+
+给定一个链表的头指针 ListNode* pHead，请返回重新排列后的链表的头指针。
+注意：分割以后保持原来的数据顺序不变。
+解题：采用两个链表small和big,分别使smallHead和bigHead指向两个链表的表头。
+最后再将大链表链接在小链表之后。
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};*/
+class Partition {
+public:
+    ListNode* partition(ListNode* pHead, int x) {
+        // write code here
+        ListNode* small = new ListNode(-1);
+        ListNode* smallHead= small;
+        ListNode* big = new ListNode(-1);
+        ListNode* bigHead = big;
+        while(pHead!=NULL)
+        {
+            if(pHead->val<x)
+            {
+                small->next=pHead;
+                small=small->next;
+            }
+            else
+            {
+                big->next=pHead;
+                big=big->next;
+            }
+            pHead=pHead->next;
+        }
+        small->next=bigHead->next;
+        big->next=NULL;
+        return smallHead->next;
+    }
+};
+删除链表中重复的结点
+在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 
+例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* pHead)
+{
+	// 先判断空
+	if (pHead == NULL)
+	{
+		return NULL;
+	}
+	// 判断是否只有一个节点
+	if (pHead->next == NULL)
+	{
+		return pHead;
+	}
+	// 我们采用带头链表，自己添加一个头
+	ListNode* pre = new ListNode(-1);
+	pre->next = pHead; // 把头节点链接在链表上
+	ListNode* pre_head = pre; // 用来保存头节点，用于返回删除后的链表
+	ListNode* cur = pHead; //中指针
+	ListNode* nex = pHead->next; // 后面指针
+	while (nex != NULL) // 结束条件
+	{ 
+		while (nex != NULL && cur->val == nex->val) 
+		{
+			nex = nex->next;
+		}
+		// 如果没有重复的那么cur的next一定等于nex
+		if (cur->next != nex) // 如果相等说明没有相同的节点
+		{
+			while (cur != nex) // 删除动作
+			{
+				pre->next = cur->next;
+				delete cur;
+				cur = pre->next;
+			}
+			if (nex != NULL) // 这里一定要要注意，要防止走到NULL发生段错误
+			nex = nex->next;
+		}
+		else
+		{
+			// 处理没有重复的情况
+			pre = cur;
+			nex = nex->next;
+			cur = cur->next;
+		}
+	}
+	ListNode* head = pre_head->next; // 释放空间，防止内存泄漏
+	delete pre_head;
+	return head;
+}
+
+};
+
+链表的回文结构
+对于一个链表，请设计一个时间复杂度为O(n),额外空间复杂度为O(1)的算法，判断其是否为回文结构。
+
+给定一个链表的头指针A，请返回一个bool值，代表其是否为回文结构。保证链表长度小于等于900。
+
+测试样例：
+1->2->2->1
+返回：true
+
+解法一：先压栈，后遍历比较
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};*/
+class PalindromeList {
+public:
+    bool chkPalindrome(ListNode* A) {
+        // write code here
+        if(A==NULL)
+            return true;
+        stack<int > st;
+        ListNode* cur=A;
+        while(cur)
+        {
+            st.push(cur->val);
+            cur=cur->next;
+        }
+        cur=A;
+        while(cur)
+        {
+            if(cur->val==st.top())
+            {
+                cur=cur->next;
+                st.pop();
+            }
+            else
+                return false;
+        }
+        return true;
+    }
+};
+
+方法二：双指针法
+在这里我来说一下第二种方法的具体思路
+（1） 第一步，先求出链表的总长度
+（2） 第二步，找到中间节点
+（3） 第三步，逆置链表后半部分节点
+（4） 第四步，判断链表是否是回文结构
+
+代码如下：
+#include<iostream>
+
+using namespace std;
+
+typedef struct ListNode
+{
+	int value;
+	struct ListNode* next;
+}ListNode;
+
+bool isPalindrome(ListNode* head) 
+{
+	// 求链表长度
+	int len = 0;
+	for (ListNode *cur = head; cur != NULL; cur = cur->next) {
+		len++;
+	}
+
+	// 找到链表的中间结点
+	ListNode *middle = head;
+	for (int i = 0; i < len / 2; i++) {
+		middle = middle->next;
+	}
+
+	// 逆置链表的后半部分
+	ListNode *node = middle;
+	ListNode *rhead = NULL;
+	while (node != NULL) {
+		ListNode *next = node->next;
+
+		node->next = rhead;
+		rhead = node;
+
+		node = next;
+	}
+
+	// 判断是否是回文
+	ListNode *p1 = head;
+	ListNode *p2 = rhead;
+	while (p1 != NULL && p2 != NULL) {
+		if (p1->value != p2->value) {
+			return false;
+		}
+
+		p1 = p1->next;
+		p2 = p2->next;
+	}
+
+	return true;
+}
+
+//尾插法建立链表
+void PushBack(ListNode* head, int v)
+{
+	ListNode* node = (ListNode*)malloc(sizeof(ListNode));
+	node->value = v;
+	if (head == NULL)
+	{
+		head = node;
+		node->next = NULL;
+	}
+	else
+	{
+		ListNode* cur = head;
+		while (cur->next != NULL)
+		{
+			cur = cur->next;
+		}
+		cur->next = node;
+		node->next = NULL;
+	}
+}
+
+相交链表
+编写一个程序，找到两个单链表相交的起始节点。
+
+如下面的两个链表：
+
+
+
+在节点 c1 开始相交。
+
+?
+
+示例 1：
+
+
+
+输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
+输出：Reference of the node with value = 8
+输入解释：相交节点的值为 8 （注意，如果两个列表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,0,1,8,4,5]。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。
+方法一：
+长链表先走
+解答如下：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA==NULL||headB==NULL)
+            return NULL;
+        int l1=0;
+        int l2=0;
+        ListNode* p1=headA;
+        ListNode* p2=headB;
+        while(p1)
+        {
+            l1++;
+            p1=p1->next;
+        }
+        
+        while(p2)
+        {
+            l2++;
+            p2=p2->next;
+        }
+        p1=headA;
+        p2=headB;
+        if(l1>=l2)
+        {
+            int i=l1-l2;
+            while(i--)
+            {
+                p1=p1->next;
+            }
+            while(p1&&p2)
+            {
+                if(p1==p2)
+                    return p1;
+                else
+                {
+                        p1=p1->next;
+                        p2=p2->next;
+                }
+            }
+        }
+        else
+        {
+            int i=l2-l1;
+            while(i--)
+            {
+                p2=p2->next;
+            }
+            while(p1&&p2)
+            {
+                if(p1==p2)
+                    return p1;
+                else
+                {
+                        p1=p1->next;
+                        p2=p2->next;
+                }
+            }
+        }
+        return NULL;
+    }
+};
+方法二：（非常简单）
+方法二巧妙解法思路：逻辑思路分为两轮，
+第一轮两个链表一个一步的走，
+如果两个链表的长度相等第一轮就可以直接判断出来；如果不相等第一轮结束，
+让cur1指向headB； cur2指向headA , 这个其实用的原理很简单；
+lenA+lenB=lenB+lenA; 也就是说当短链走完转长链继续走。
+长链走完转短链时，两个链剩余部分正好相等。
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* cur1=headA;
+        ListNode* cur2=headB;
+        while(cur1!=cur2)
+        {
+            cur1=cur1==NULL?headB:cur1->next;
+            cur2=cur2==NULL?headA:cur2->next;
+        }
+        return cur1;
+    }
+};
+
+
+环形链表
+给定一个链表，判断链表中是否有环。
+
+为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
+
+?解法：快慢指针法 fast每次两步 slow每次一步 ，若有环则最终会相遇。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==NULL||head->next==NULL)
+            return false;
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast!=NULL&&fast->next!=NULL&&slow!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow==fast)
+                return true;
+            
+        }
+        return false;
+    }
+};
+
+
+环形链表2
+法一：线性空间set
+
+效率：98.64%
+
+思路：
+
+用一个set保存已经走过的结点，每次判断要走的结点是否在set中，
+如果在，则直接返回该结点，如果不在，则将该结点加入到set中
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *temp = head;
+        unordered_set<ListNode*> m;
+        while (temp) {
+            if (m.find(temp) == m.end()) {
+                m.insert(temp);
+                temp = temp -> next;
+            }  
+            else
+                return temp;
+        }
+        return NULL;
+    }
+}；
+方法2：
+快慢指针法
+如图，设从head到环形开始结点的距离是A，慢指针从环形开始结点走到相遇点走过的路程是B，环的长度是L（画图的时候漏掉了，图中没有标示出来）。于是有：
+
+对慢指针，从head走到meet的距离为A+B
+对快指针，从head走到meet的距离为2A+2B（因为快指针的速度是慢指针的两倍，而在相遇时它们走了相同的时间）
+相遇时，慢指针被快指针套了一圈，即快指针比慢指针多走一圈
+根据以上分析我们可以列一个等式：A+B+L = 2A+2B，可以解得L = A + B。从这个结果可以看出，meet到begin的距离也是A。这意味着，如果我们分别放两个指针在head和meet，让它们以相同的速度前进，它们第一次相遇的地方就是我们要找的环形开始结点。
+代码：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(head==NULL||head->next==NULL)
+            return NULL;
+    ListNode* slow = head;
+    ListNode* fast = head;
+        while(fast!=NULL&&fast->next!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow==fast)
+                break;
+        }
+        if(fast==NULL||fast->next==NULL)
+            return NULL;
+        ListNode* cur=head;
+        while(slow!=cur)
+        {
+            slow=slow->next;
+            cur=cur->next;
+        }
+        return cur;
+        
+    }
+};	
+
