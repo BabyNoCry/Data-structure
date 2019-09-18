@@ -454,7 +454,7 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
 	int* arry = (int*)malloc(4 * (*returnSize));
 	cur = root;
 	int i = 0;
-	while (StackEmpty(&st) != 0L || cur != NULL)
+	while (StackEmpty(&st) != 0 || cur != NULL)
 	{
 		while (cur != NULL)
 		{
