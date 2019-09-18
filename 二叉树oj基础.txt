@@ -324,7 +324,7 @@ void BuildTree(BinaryTree* &Tree,char* prev,char* in,int len)
         Tree->data=*prev;
         BuildTree(Tree->left,prev+1,in,index);
         BuildTree(Tree->right,prev+1+index,in+index+1,len-index-1);
-    }
+    }	
     return ;
 }
 void PostOrder(BinaryTree* Tree)
