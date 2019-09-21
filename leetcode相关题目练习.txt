@@ -1,0 +1,134 @@
+148.排序链表
+在?O(n?log?n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+
+示例 1:
+
+输入: 4->2->1->3
+输出: 1->2->3->4
+示例 2:
+
+输入: -1->5->3->4->0
+输出: -1->0->3->4->5
+
+利用归并排序思想
+代码如下：
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if(head==NULL||head->next==NULL)
+            return head;
+        ListNode* slow=head,*fast=head;
+        while(slow->next&&fast->next&&fast->next->next)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        fast=slow->next;
+        slow->next=NULL;
+        ListNode* p1=sortList(head);
+        ListNode* p2=sortList(fast);
+        return MergList(p1,p2);
+    }
+    ListNode* MergList(ListNode* p1,ListNode* p2)
+    {
+            if(p1==NULL)
+                return p2;
+            if(p2==NULL)
+                return p1;
+        ListNode* root=new ListNode(-1);
+        ListNode* ret=root;
+        while(p1&&p2)
+        {
+            root->next=p1->val<=p2->val?p1:p2;
+            if(p1->val<=p2->val)
+                p1=p1->next;
+            else
+                p2=p2->next;
+            root=root->next;
+            
+        }
+        root->next=p1==NULL?p2:p1;
+        return ret->next;
+    }
+}
+方法二：利用multlimap，排序之后再讲节点连接成链表
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        multimap<int,ListNode*> mul;
+        while(head)
+        {
+            mul.insert(make_pair(head->val,head));
+            head=head->next;
+        }
+        ListNode* ret=new ListNode(-1);
+        head=ret;
+        for(auto it=mul.begin();it!=mul.end();it++)
+        {
+            head->next=it->second;
+            head=head->next;
+            }
+        head->next=NULL;
+        return ret->next;
+    }
+};
+
+150.逆波兰表达式
+根据逆波兰表示法，求表达式的值。
+
+有效的运算符包括?+,?-,?*,?/?。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
+
+说明：
+
+整数除法只保留整数部分。
+给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
+示例?1：
+
+输入: ["2", "1", "+", "3", "*"]
+输出: 9
+解释: ((2 + 1) * 3) = 9
+示例?2：
+
+输入: ["4", "13", "5", "/", "+"]
+输出: 6
+解释: (4 + (13 / 5)) = 6
+
+解法：利用一个栈
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        for(int i=0;i<tokens.size();i++)
+        {
+            if(tokens[i]!="+"&&tokens[i]!="-"&&tokens[i]!="*"&&tokens[i]!="/")
+            {
+                st.push(atoi(tokens[i].c_str()));
+            }
+            else
+            {
+                int a=st.top();
+                st.pop();
+                int b=st.top();
+                st.pop();
+                if(tokens[i]=="+")
+                {
+                    st.push(a+b);
+                }
+                else if(tokens[i]=="-")
+                {
+                    st.push(b-a);
+                }
+                else if(tokens[i]=="*")
+                {
+                    st.push(a*b);
+                }
+                else
+                {
+                    st.push(b/a);
+                }
+              }
+          
+        }
+            return st.top();
+    }
+};
