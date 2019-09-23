@@ -121,4 +121,81 @@ class solution{
 
 智力题：有A、B、C、D四个人，要在夜里过一座桥。他们通过这座桥分别需要耗时1、2、5、10分钟，只有一支手电（过桥必须用手电），并且同时最多只能两个人一起过桥。
 请问，如何安排，能够在17分钟内这四个人都过桥？
-首先,A和B同时过,需要2分钟，再A返回,需要1分钟,再D与C过桥,需要10分钟,再B返回,需要2分钟,再AB过去2分钟.2+1+10+2+2=17
+首先,A和B同时过,需要2分钟，再A返回,需要1分钟,再D与C过桥,需要10分钟,
+再B返回,需要2分钟,再AB过去2分钟.2+1+10+2+2=17
+
+#include<iostream>
+using namespace std;
+//求第n个斐波那契数列的值（非递归） 
+int Fib(int n)
+{
+	if(n==0||n==1)
+	return 1;
+	int* a = new int[n];
+	a[0]=a[1]=1;
+	for(int i=2;i<n;i++)
+	{
+		a[i]=a[i-1]+a[i-2];
+	}
+	return a[n-1];
+ } 
+
+//写一个函数求unsigned int 型变量x在内存中二进制1的个数
+int num_one(unsigned int x)
+{
+	int num=0;
+	for(int i=0;i<32;i++)
+	{	
+		if((x>>i)&1==1)
+		{
+			num++;
+		}
+	}
+	return num;
+ } 
+
+//编写一个函数，求一个单链表倒数第k个结点。
+LisNode* Node_K(ListNode* head,int k)
+{
+	if(head==NULL)
+	return NULL;
+	ListNode* fast,*slow;
+	
+	while(fast!=NULL)
+	{
+		if(k>0)
+		{
+			fast=fast->next;
+			k--; 
+		}
+		else
+		{
+			fast=fast->next;
+			slow=slow->next;
+		}
+	}
+	 if(k==0)
+	 return slow;
+	 else
+	 return NULL;
+ } 
+ 
+ //编写函数要求逆置单链表
+ ListNode* reverse_List(ListNode* head)
+ {
+ 	if(head==NULL||head->next==NULL)
+ 	return head;
+
+ 	ListNode* prev=NULL;
+ 	ListNode* cur=head->next;
+ 	ListNode* next=cur->next;
+ 	while(next!=NULL)
+ 	{
+ 		cur->next=prev;
+ 		prev=cur;
+ 		cur=next;
+		next=next->next;	
+	 }
+	 cur->next=prev;
+	 return cur;
+  } 
