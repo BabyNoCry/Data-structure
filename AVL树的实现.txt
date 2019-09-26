@@ -1,0 +1,231 @@
+AVLTree.hpp 文件
+#pragma once
+/*
+四种不同类型的旋转：
+单旋转
+1.新节点插在较高左子树左侧--> 左左--->右单旋
+2.插在较高右子树的右侧-->右右--->左单旋
+双旋转：
+较高左子树的右侧-->左单旋右单旋   
+较高右子树的左侧-->右单旋左单旋
+
+注意：更新平衡因子
+*/
+#include<iostream>
+using namespace std;
+template<class K,class V>
+struct  AVLTreeNode
+{
+
+	AVLTreeNode(const pair<K, V>& data)
+		:_pLeft(nullptr)
+		,_pRight(nullptr)
+		,_pParent(nullptr)
+		,_data(data)
+		,_bf(0)
+	{}
+public:
+	AVLTreeNode<K, V>* _pLeft;
+	AVLTreeNode<K, V>* _pRight;
+	AVLTreeNode<K, V>* _pParent;
+	pair<K, V> _data;
+	int _bf;	//节点的平衡因子
+};
+
+template<class K,class V>
+class AVLTree
+{
+	typedef AVLTreeNode<K, V> Node;
+public:
+	AVLTree()
+		:_pRoot(nullptr)
+	{}
+
+	bool Insert(const pair<K, V>& data)
+	{
+		//按照二叉搜索树得规则将新节点插入到AVL树中
+		if (nullptr == _pRoot)
+		{
+			_pRoot = new Node(data);
+			return true;
+		}
+
+		//找待插入结点在AVL树中的位置
+		Node* pCur = _pRoot;
+		Node* pParent = nullptr;
+			while(pCur)
+			{
+				pParent = pCur;
+				if (data.first < pCur->_data.first)
+					pCur = pCur->_pLeft;
+				else if (data.first > pCur->_data.first)
+					pCur = pCur->_pRight;
+				else
+					return false;
+			}
+		//插入结点
+		pCur = new Node(data);
+		if (data.first < pParent->_data.first)
+			pParent->_pLeft = pCur;
+		else
+			pParent->_pRight = pCur;
+		pCur->_pParent = pParent;
+		while (pParent)
+		{
+			//AVL:必须更新pParent结点的平衡因子
+			if (pCur == pParent->_pLeft)
+				pParent->_bf--;
+			else
+				pParent->_bf++;
+
+			if (0 == pParent->_bf)
+				return true;
+			else if (1 == pParent->_bf || -1 == pParent->_bf)
+			{
+				pCur = pParent;
+				pParent = pCur->_pParent;
+			}
+			else
+			{
+				//pParent结点的平衡因子已经为正负2
+				if (2 == pParent->_bf)
+				{
+					if (1 == pCur->_bf)	//左单旋
+						RotateL(pParent);
+					else
+					{
+						RotateRL(pParent);
+					}
+				}
+				else
+				{
+					if (-1 == pCur->_bf)	//右单旋
+						RotateR(pParent);
+					else
+					{
+						RotateLR(pParent);
+					}
+
+				}
+				break;
+			}
+		}
+		return true;
+		
+	}
+	void RotateR(Node* pParent)	//右单旋
+	{
+		Node* pSubL = pParent->_pLeft;
+		Node* pSubLR = pSubL->_pRight;
+
+		pParent->_pLeft = pSubLR;
+
+		//	三个结点的左单支
+		if(pSubLR)
+			pSubLR->_pParent = pParent;
+		pSubL->_pRight = pParent;
+		Node* pPParent = pParent->_pParent;
+		pSubL->_pParent = pPParent;
+		pParent->_pParent = pSubL;
+
+		//在旋转之前pParent是根结点
+		if(nullptr == pPParent)
+		{
+			_pRoot = pSubL;
+		}
+		else
+		{
+			//pParent可能是其双亲的左孩子||右孩子
+			if (pPParent->_pLeft == pParent)
+				pPParent->_pLeft = pSubL;
+			else
+				pPParent->_pRight = pSubL;
+		}
+		pSubL->_bf = pParent->_bf = 0;
+	}
+
+	void RotateL(Node* pParent)	//左单旋
+	{
+		Node* pSubR = pParent->_pRight;
+		Node* pSubRL = pSubR->_pLeft;
+
+		pParent->_pRight = pSubRL;
+		if (pSubRL)
+			pSubRL->_pParent = pParent;
+
+		pSubR->_pLeft = pParent;
+
+		Node* pPParent = pParent->_pParent;
+		pParent->_pParent = pSubR;
+		pSubR->_pParent = pPParent;
+
+		if (pPParent == nullptr)
+			_pRoot = pSubR;
+		else
+		{
+			if (pParent == pPParent->_pLeft)
+			{
+				pPParent->_pLeft = pSubR;
+			}
+			else
+			{
+				pPParent->_pRight = pSubR;
+			}
+		}
+		pSubR->_bf = pParent->_bf = 0;
+	}
+
+		//右左双旋
+	void RotateRL(Node* pParent)
+	{
+		RotateR(pParent->_pRight);
+		RotateL(pParent);
+	}
+
+	//左右双旋
+	void RotateLR(Node* pParent)
+	{
+		RotateL(pParent->_pLeft);
+		RotateR(pParent);
+	}
+	void Inorder()
+	{
+		_Inorder(_pRoot);
+	}
+
+	private:
+		size_t _Height(Node* pRoot)
+		{
+			if (nullptr == pRoot)
+				return 0;
+			size_t leftHeight = _Height(pRoot->_pLeft) + 1;
+			size_t rightHeight = _Height(pRoot->_pRight) + 1;
+			return leftHeight > rightHeight ? leftHeight : rightHeight;
+		}
+
+		//判断是否是AVL树
+		bool _IsBalanceTree(Node* pRoot)
+		{
+			if (nullptr == pRoot)
+				return true;
+
+			size_t leftHeight = _Height(pRoot->_pLeft);
+			size_t rightHeight = _Height(pRoot->_pRight);
+			int bf = rightHeight - leftHeight
+			if (abs(bf) > 1|| bf != pRoot->_bf)
+					return false;
+			return 	_IsBalanceTree(pRoot->_pLeft) && _IsBalanceTree(pRoot->_pRight);
+		}
+		void _Inorder(Node* pRoot)
+		{
+			if (pRoot)
+			{
+				_Inorder(pRoot->_pLeft);
+				cout << pRoot->_data.first << " ";
+				_Inorder(pRoot->_pRight);
+			}
+		}
+private:
+	
+	Node* _pRoot;
+};
