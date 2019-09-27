@@ -1,0 +1,85 @@
+#pragma once
+
+#include"RBTree.hpp"
+
+namespace bite
+{
+	template<class K, class V>
+	class map
+	{
+		typedef pair<K, V> DataType;
+		
+		struct KeyOfValue
+		{
+			const K& operator()(const DataType& val)
+			{
+				return val.first;
+			}
+		};
+		typedef RBTree<DataType, K, KeyOfValue> RBT;
+
+	public:
+		//加typename 的原因是，若果不加，系统会将RBT::iterator 当做是一个类里面我的静态成员变量，
+		//给变量取别名是不行的,因此加上typename是告诉系统，这是一个类型，就可以达到取别名的目的。
+		typename typedef RBT::iterator  iterator;	
+	public:
+		map()
+			:_t()
+		{}
+
+		/////////////////////////////////////
+		//iterator
+		iterator begin()
+		{
+			return _t.begin();
+		}
+		iterator end()
+		{
+			return _t.end();
+		}
+		////////////////////////////////////////////
+		 size_t size() const
+		{
+			return _t.Size();
+		}
+
+		bool empty() const
+		{
+			return _t.Empty();
+		}
+
+		////////////////////
+		//元素访问
+		V& operator[](const K& key)
+		{
+			return  (*(_t.Insert(DataType(key, V())).first))->second;
+		
+			//return *((this->insert(make_pair(key, V()))).first).second;
+		}
+		//////////////////////
+		//modify
+		pair<iterator, bool> insert(const DataType& val)
+		{
+			return _t.Insert(val);
+		}
+
+		void swap(map<K, V>& m)
+		{
+			_t.Swap(m._t);
+		}
+
+		void clear()
+		{
+			_t.Clear();
+		}
+
+		//////////////
+		//find
+		iterator find(const K& key)
+		{
+			return _t.Find(key);
+		}
+	private:
+		RBT _t;
+	};
+}
