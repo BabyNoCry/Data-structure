@@ -1,0 +1,148 @@
+#pragma once
+#include<vector>
+enum State {EMPTY,EXIST,DELETE};
+//假设哈希表中元素唯一
+template<class T>
+struct Elem
+{
+	T _value;
+	State _state;
+};
+
+template<class T,bool IsLine = true>
+class HashTable
+{
+public:
+	HashTable(size_t capacity = 10)
+		:_ht(capacity)
+		,_size(0)
+	{
+		for (auto & e : _ht)
+			e._state = EMPTY;
+	}
+
+	bool Insert(const T& value)
+	{
+		//0.是否需要扩容
+
+
+		//1.通过哈希函数计算元素在哈希表中的位置
+		size_t hashAddr = HashFunc(value);
+		int i = 0;
+
+		CheckCapacity();
+		//2.检测该位置是否可以插入元素
+		//发生哈希冲突
+
+		while(EMPTY != _ht[hashAddr]._state)
+		{
+			if (EXIST == _ht[hashAddr]._state&&
+				value == _ht[hashAddr]._value)
+			{
+				return false;
+			}
+			i++;
+			//使用线性探测解决
+			if (IsLine)
+			{
+				++hashAddr;
+				if (hashAddr == _ht.capacity())
+					hashAddr = 0;
+			}
+				
+			else
+			{
+				//解决线性探测的数据堆积问题，
+				//二次探测缺点：空位置较少时，插入元素可能会耗时较大，
+				//解决方法:降低负载因子
+				//使用二次探测 Hi = H0 + i^2;----> Hi+1 = Hi + 2*i+1;
+				hashAddr = hashAddr + 2*i + 1;
+				hashAddr %= _ht.capacity();	//防止越界
+			}
+			
+		}
+		//插入元素
+		_ht[hashAddr]._value = value;
+		_ht[hashAddr]._state = EXIST;
+		++_size;
+		return false;
+
+	}
+
+	int Find(const T& value)
+	{
+		size_t hashAddr = HashFunc(value);
+		int i = 0;
+		while (EMPTY != _ht[hashAddr]._state)
+		{
+			if (EXIST == _ht[hashAddr]._state && value == _ht[hashAddr]._value)
+			{
+				return hashAddr;
+			}
+
+			i++;
+			//使用线性探测解决
+			if (IsLine)
+			{
+				++hashAddr;
+				if (hashAddr == _ht.capacity())
+					hashAddr = 0;
+			}
+
+			else
+			{
+				//使用二次探测 Hi = H0 + i^2;----> Hi+1 = Hi + 2*i+1;
+				hashAddr = hashAddr + 2 * i + 1;
+				hashAddr %= _ht.capacity();	//防止越界
+			}
+
+
+		}
+		return -1;
+	}
+
+	bool Erase(const T& value)
+	{
+		int  pos = Find(value);
+		if (-1 != pos)
+		{
+			_ht[pos]._state = DELETE;
+			_size--;
+			return true;
+		}
+
+		return false;
+
+	}
+
+	void Swap(HashTable<T>& ht)
+	{
+		_ht.swap(ht._ht);
+		swap(_size, ht._size);
+	}
+private:
+	size_t HashFunc(const T& value)
+	{
+		return value % _ht.capacity();
+		
+	}
+
+	void CheckCapacity()
+	{
+		//哈希的负载因子：有效元素与容量的比率
+		if (_size*10 / _ht.capacity() >= 7)	
+		{
+			HashTable<T> newHt(_ht.capacity() * 2);
+			//将原哈希表中的状态为存在的元素插入到新的哈希表
+			for (size_t i = 0; i < _ht.capacity(); i++)
+			{
+				if (EXIST == _ht[i]._state)
+					newHt.Insert(_ht[i]._value);
+			}
+			Swap(newHt);
+		}
+	}
+private:
+	vector<Elem<T>> _ht;
+	size_t _size;	//记录哈希表中元素的个数
+};
