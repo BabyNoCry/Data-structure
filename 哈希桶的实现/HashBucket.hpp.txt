@@ -1,0 +1,392 @@
+#pragma
+
+#include<istream>
+#include<vector>
+#include"common.hpp"
+#include<string>
+using namespace std;
+template<class T>
+struct HBNode
+{
+	HBNode(const T& data)
+		:_pNext(nullptr)
+		,_data(data)
+	{}
+	HBNode<T>* _pNext;
+	T _data;
+};
+//元素唯一
+
+//1.怎么快速找具有两倍关系的素数（哈希函数），为什么除素数？
+//2.什么时候扩容
+//3.如何扩容？
+//4.如何让哈希桶任意类型的元素都可以存储？
+
+//T---》 int string---》整型
+//哈希函数中必须：将T--->整型
+
+//T--》 整型系列
+template<class T>
+class DFDef
+{
+public:
+	T operator()(const T& data)
+	{
+		return data;
+	}
+};
+
+//T-->string
+class StringToINT
+{
+public:
+	size_t  operator()(const string& s)
+	{
+	//	//1.return s[0];
+	//	//2.
+	//	
+	///*	size_t hashAddr = 0;
+	//	for (auto e : s)
+	//		hashAddr += e;*/
+
+	//	//3.(size_t)s.c_str();
+	//	return (size_t)s.c_str();
+		return BKDRHash(s.c_str());
+	}
+	size_t BKDRHash(const char *str)
+	{
+		register size_t hash = 0;
+		while (size_t ch = (size_t)*str++)
+		{
+			hash = hash * 131 + ch;   // 也可以乘以31、131、1313、13131、131313..  
+			// 有人说将乘法分解为位运算及加减法可以提高效率，如将上式表达为：hash = hash << 7 + hash << 1 + hash + ch;  
+			// 但其实在Intel平台上，CPU内部对二者的处理效率都是差不多的，  
+			// 我分别进行了100亿次的上述两种运算，发现二者时间差距基本为0（如果是Debug版，分解成位运算后的耗时还要高1/3）；  
+			// 在ARM这类RISC系统上没有测试过，由于ARM内部使用Booth's Algorithm来模拟32位整数乘法运算，它的效率与乘数有关：  
+			// 当乘数8-31位都为1或0时，需要1个时钟周期  
+			// 当乘数16-31位都为1或0时，需要2个时钟周期  
+			// 当乘数24-31位都为1或0时，需要3个时钟周期  
+			// 否则，需要4个时钟周期  
+			// 因此，虽然我没有实际测试，但是我依然认为二者效率上差别不大          
+		}
+		return hash;
+	}
+};
+
+template<class T, class HF>
+class HashBucket;	//声明
+
+template<class T,class HF>
+struct HashBucketIterator
+{
+	typedef HBNode<T> Node;
+	typedef HashBucketIterator<T, HF> Self;
+public:
+	HashBucketIterator( Node* pNode,HashBucket<T,HF>* ht)
+		:_pNode(pNode)
+		,_ht(ht)
+	{}
+	
+	T& operator* ()
+	{
+		return _pNode->_data;
+	}
+
+	T* operator->()
+	{
+		return &(operator*());
+	}
+
+	Self& operator++()
+	{
+		Next();
+		return *this;
+	}
+
+	Self operator++(int)
+	{
+		Self temp(*this);
+		Next();
+		return temp;
+	}
+
+	void Next()
+	{
+		if (_pNode->_pNext)
+		{
+			_pNode = _pNode->_pNext;
+		}
+		else
+		{
+			//找下一个不空的桶
+			size_t bucketNo = _ht->HashFunc(_pNode->_data)+1;
+			for (; bucketNo < _ht->BucketCount(); ++bucketNo)
+			{
+				if (_ht->_table[bucketNo])
+				{
+					_pNode = _ht->_table[bucketNo];
+					return;
+				}
+			}
+
+			_pNode = nullptr;
+		}
+	}
+	bool operator!=(const Self& s) const
+	{
+		return _pNode != s._pNode && _ht != s._ht;
+	}
+
+	bool operator==(const Self& s) const
+	{
+		return !(_pNode != s._pNode && _ht != s._ht);
+	}
+private:
+	HBNode<T>* _pNode;
+	HashBucket<T, HF>* _ht;
+};
+
+
+template<class T,class HF = DFDef<int>>
+class HashBucket
+{
+	typedef HashBucket<T, HF> Self;
+	friend  HashBucketIterator<T, HF>;
+public:
+	typedef HashBucketIterator<T, HF> Iterator;
+public:
+	HashBucket(size_t capacity = 10)
+		:_table(GetNextPrime(capacity), nullptr)
+		,_size(0)
+	{}
+	~HashBucket()
+	{
+		Clear();
+	}
+
+	Iterator Begin()
+	{
+		for (size_t bucketNo = 0; bucketNo < BucketCount(); bucketNo++)
+		{
+			if (_table[bucketNo])
+				return Iterator(_table[bucketNo], this);
+		}
+		return End();
+	}
+	
+	Iterator End()
+	{
+		return Iterator(nullptr, this);
+	}
+	bool Insert(const T& data)
+	{
+		//0.检测是否需要扩容
+		CheckCapacity();
+		//1.计算当前元素所在的桶号
+		size_t bucketNo = HashFunc(data);
+		//2.检测该元素是否在桶中
+		HBNode<T>* pCur = _table[bucketNo];
+		while (pCur)
+		{
+			if (pCur->_data == data)
+				return false;
+			pCur = pCur->_pNext;
+		}
+
+		//插入元素
+		pCur = new HBNode<T>(data);
+		pCur->_pNext = _table[bucketNo];
+		_table[bucketNo] = pCur;
+		++_size;
+		return true;
+	}
+
+	HBNode<T>* Find(const T& data)
+	{
+		size_t bucketNo = HashFunc(data);
+		HBNode<T>* pCur = _table[bucketNo];
+
+		while (pCur)
+		{
+			if (pCur->_data == data)
+				return pCur;
+			pCur = pCur->_pNext;
+		}
+		return nullptr;
+	}
+
+	bool Erase(const T& data)
+	{
+		size_t bucketNo = HashFunc(data);
+		HBNode<T>* pCur = _table[bucketNo];
+		HBNode<T>* pPre = nullptr;
+		while (pCur)
+		{
+			//找到待删除的元素
+			if (pCur->_data == data)
+			{
+				//删除当前链表的第一个节点
+				if (pPre == nullptr)
+				{
+					_table[bucketNo] = pCur->_pNext;
+				
+				}
+				else
+				{
+					pPre->_pNext = pCur->_pNext;
+				}
+				delete pCur;
+				_size--;
+				return true;
+			}
+			pPre = pCur;
+			pCur = pCur->_pNext;
+		}
+		return false;
+	}
+
+	size_t Size() const
+	{
+		return _size;
+	}
+	void Swap(Self& hb)
+	{
+		_table.swap(hb._table);
+		swap(_size, hb._size);
+	}
+	bool Empty()
+	{
+		return 0 == _size;
+	}
+	void Clear()
+	{
+		for (size_t bucketNo = 0; bucketNo < _table.capacity(); ++bucketNo)
+		{
+			HBNode<T>* pCur = _table[bucketNo];
+			while (pCur)
+			{
+				_table[bucketNo] = pCur->_pNext;
+				delete pCur;
+				pCur = _table[bucketNo];
+			}
+		}
+		_size = 0;
+	}
+
+	size_t BucketCount() const
+	{
+		return _table.capacity();
+	}
+	void Print()
+	{
+		for (size_t bucketNo = 0; bucketNo < _table.capacity(); ++bucketNo)
+		{
+			cout << "H[" << bucketNo << "]:";
+			HBNode<T>* pCur = _table[bucketNo];
+			while (pCur)
+			{
+				cout<<pCur->_data<<"--->";
+				pCur = pCur->_pNext;
+			}
+			cout << "NULL" << endl;;
+		}
+	}
+private:
+
+	size_t HashFunc(const T& data)	//哈希函数 
+	{
+		return HF()(data) % _table.capacity();
+	}
+
+	void CheckCapacity()
+	{
+		size_t oldCapacity = _table.capacity();
+		if(_size == _table.capacity())
+		{
+			Self newHB(GetNextPrime(oldCapacity));
+			
+			for (size_t bucketNo = 0; bucketNo < _table.capacity(); ++bucketNo)
+			{
+				HBNode<T>* pCur = _table[bucketNo];
+				while (pCur)
+				{
+					//缺陷：结点重复创建
+					//newHB.Insert(pCur->_data);
+					//pCur = pCur->_pNext;
+
+					//修改缺陷：
+					//1.当前节点在新哈希桶中的桶号
+					size_t newbucketNo = newHB.HashFunc(pCur->_data);
+
+					//2.将pCur从旧哈希桶中移除
+					_table[bucketNo] = pCur->_pNext;
+
+					//3.将pCur头插到新哈希桶中
+					pCur->_pNext = newHB._table[newbucketNo];
+					newHB._table[newbucketNo] = pCur;
+
+					//4.从旧哈希表中取下一个结点
+					pCur = _table[bucketNo];
+				}
+			}
+			Swap(newHB);
+		}
+	}
+private:
+	vector<HBNode<T>*> _table;
+	size_t _size;
+};
+
+void TestHashBucket1()
+{
+	HashBucket<int> ht(10);
+	ht.Insert(3);
+	ht.Insert(8);
+	ht.Insert(4);
+	ht.Insert(0);
+	ht.Insert(7);
+	ht.Insert(13);
+	ht.Insert(33);
+	ht.Insert(53);
+
+	cout << ht.Size() << endl;
+
+	auto it = ht.Begin();
+	while (it != ht.End())
+	{
+		cout << *it << " ";
+		++it;
+	}
+
+	cout << endl;
+	ht.Print();
+
+	ht.Erase(13);
+	ht.Print();
+
+	ht.Erase(3);
+	if (nullptr == ht.Find(3))
+	{
+		cout << "3 is not in " << endl;
+	}
+	else
+	{
+		cout << "3 is in" << endl;
+	}
+	ht.Print();
+	ht.Clear();
+	cout << ht.Size() << endl;
+}
+
+void TestBucket2()
+{
+	HashBucket<string, StringToINT>  ht;
+	ht.Insert("hello");
+	ht.Insert("world");
+	ht.Insert("CCP");
+	ht.Insert("I");
+	ht.Insert("LOVE");
+	ht.Insert("YOU");
+	ht.Print();
+
+}
