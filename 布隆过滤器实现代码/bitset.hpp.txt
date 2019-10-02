@@ -1,0 +1,42 @@
+#pragma once 
+#include<iostream>
+#include<vector>
+#include<assert.h>
+using namespace std;
+
+class BitSet
+{
+public:
+	BitSet(size_t range)
+	{
+		_bits.resize((range >> 5) + 1, 0);
+	}
+
+	void Set(size_t x)
+	{
+		size_t index = x >> 5;
+		size_t num = x % 32;
+
+		_bits[index] |= (1 << num);
+
+	}
+
+	void Rest(size_t x)
+	{
+		size_t index = x >> 5;
+		size_t num = x % 32;
+
+		_bits[index] &= ~(1 << num);
+	}
+	bool Test(size_t x)
+	{
+		size_t index = x >> 5;
+		size_t num = x % 32;
+
+		return _bits[index] & (1 << num);
+	}
+
+private:
+	std::vector<int> _bits;
+
+};

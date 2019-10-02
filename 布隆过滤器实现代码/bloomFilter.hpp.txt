@@ -1,0 +1,114 @@
+#pragma once
+#include"BitSet.hpp"
+
+#include<iostream>
+using namespace std;
+
+
+//string 
+template<class K,
+	class HashFunc1,
+	class HashFunc2, 
+	class HashFunc3 >
+class BloomFilter
+{
+public:
+	BloomFilter(size_t N)	//k = (m/n)ln2,	k是哈希函数的个数，这里k=3；
+		:_bs(5*N)			//k = (m/n)0.7   4.28n = m
+		,_nbit(5*N)
+	{
+
+	}
+	void Set(const K& k)
+	{
+		size_t index1 = HashFunc1()(k)% _nbit;
+		size_t index2 = HashFunc2()(k) % _nbit;
+		size_t index3 = HashFunc3()(k) % _nbit;
+
+		_bs.Set(index1);
+		_bs.Set(index2);
+		_bs.Set(index3);
+	}
+	bool Test(const K& k)
+	{
+		size_t index1 = HashFunc1()(k) % _nbit;
+		if (_bs.Test(index1) == false)
+			return false;
+		size_t index2 = HashFunc2()(k) % _nbit;
+		if (_bs.Test(index2) == false)
+			return false;
+		size_t index3 = HashFunc3()(k) % _nbit;
+		if (_bs.Test(index3) == false)
+			return false;
+
+		return true;	//不准确，可能存在误判
+	}
+	//void Reset(const K& k); 不支持
+		
+private:
+	BitSet _bs;
+	size_t _nbit;
+};
+
+struct StrHash1
+{
+	size_t operator()(const string& s)
+	{
+		size_t hash = 0;
+		for (size_t i = 0; i < s.size(); i++)
+		{
+			hash = hash * 131 + s[i];
+		}
+		return hash;
+	}
+};
+
+struct StrHash2
+{
+	size_t operator()(const string& s)
+	{
+		size_t hash = 0;
+		for (size_t i = 0; i < s.size(); i++)
+		{
+			hash = hash * 65599 + s[i];
+		}
+		return hash;
+	}
+};
+
+struct StrHash3
+{
+	size_t operator()(const string& s)
+	{
+		size_t hash = 0;
+		size_t magic = 63689;
+		for (size_t i = 0; i < s.size(); i++)
+		{
+			//魔数
+			hash = hash * 63689 + s[i];
+			magic *= 378551;
+		}
+		return hash;
+	}
+};
+
+void TestBloomFilter()
+{
+	string url1 = "https://www.baidu.com/s?ie=UTF-8&wd=CSDN";
+	string url2 = "https://blog.csdn.net/lw__sunshine/article/details/81949292";
+	string url3 = "https://www.cnblogs.com/tomato0906/articles/7455739.html";
+	string url4 = "https://www.cnblogs/tomato0906/articles/7455739.html";
+
+	BloomFilter<string, StrHash1, StrHash2, StrHash3> bf(100);
+	bf.Set(url1);
+	bf.Set(url2);
+	bf.Set(url3);
+	bf.Set(url4);
+
+
+	cout << bf.Test(url1) << endl;
+	cout << bf.Test(url2) << endl;
+	cout << bf.Test(url3) << endl;
+	cout << bf.Test(url4) << endl;
+
+}
